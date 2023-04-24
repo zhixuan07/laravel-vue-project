@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 class AuthController
 {
     public function register(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory
@@ -27,6 +30,32 @@ class AuthController
         return response([
             'user' => $user,
             'token' => $token
+        ]);
+
+    }
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email'=>'required|email|string|exists:users,email',
+            'password' => [
+                'required'
+            ]
+        ]);
+        $remember = $credentials['remember'] ?? false;
+        unset($credentials['remember']);
+
+        if(!Auth::attempt($credentials,$remember)){
+            return response(
+                [
+                    'error' => 'Email or Password is incorrect'
+                ],status: 422
+            );
+        }
+        $user = Auth::user();
+        $token = $user -> createToken('main')-> plainTextToken;
+        return response([
+            'user'=>$user,
+            'token'=>$token
         ]);
     }
 }
