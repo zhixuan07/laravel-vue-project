@@ -1,11 +1,13 @@
 import { createStore } from 'vuex'
 import axiosClient from '../axios'
+import axiosFoodClient from '../axiosFoodClient';
 const store = createStore({
     state :{
         user:{
             data: {},
             token :  sessionStorage.getItem('TOKEN')
-        }
+        },
+        foodByName:[]
     },
     mutations :{
         setUser(state, userData){
@@ -17,6 +19,9 @@ const store = createStore({
             state.user.token = null;
             state.user.data = {};
             sessionStorage.removeItem("TOKEN");
+          },
+          set_foodByName(state, payload) {
+            state.foodByName = payload
           }
     },
     actions :{
@@ -41,6 +46,10 @@ const store = createStore({
                 return response;
               })
         },
+        async searchFoodByName(context, food) {
+          const response = await axiosFoodClient.get(`search.php?s=${food}`)
+          context.commit('set_foodByName', response.data.meals)
+        }
         
     },
 

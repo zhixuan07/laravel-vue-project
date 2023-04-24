@@ -6,7 +6,8 @@ const router = createRouter({
     { path: '/', redirect: '/home', component: () => import('../components/DefaultLayout.vue'),
     meta: { requiresAuth: true },
     children: [
-        { path: '/home', component: () => import('../view/Home.vue') }
+        { path: '/home', component: () => import('../view/Home.vue') },
+        { path: '/food', component: () => import('../components/SearchFoodbyName.vue') },
     ] 
     },
     {

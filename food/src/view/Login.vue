@@ -71,11 +71,12 @@
 
 <script setup>
 import { ref } from "vue";
-
-import store from "../store";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 const router = useRouter();
 const errmsg = ref(null);
+
+const  store = useStore();
 
 const user = {
   email: "",

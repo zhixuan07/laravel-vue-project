@@ -29,7 +29,7 @@
         >Home</router-link
       >
       <router-link
-        to="/menu"
+        to="/food"
         class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
         
         >Menu</router-link
