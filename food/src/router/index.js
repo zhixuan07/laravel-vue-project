@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import store from '../store'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -14,7 +14,7 @@ const router = createRouter({
         redirect:'/login',
         name:'auth',
         component: () => import('../components/AuthLayout.vue'),
-       
+        meta:{isGuest:true},
         children:[
             {  path: '/login', component: () => import('../view/Login.vue') },
             { path: '/register', component: () => import('../view/Register.vue') },
@@ -24,5 +24,16 @@ const router = createRouter({
  
   ]
 })
+
+router.beforeEach( (to, from, next) => {
+    if (to.meta.requiresAuth && !store.state.user.token){
+      next('/login')
+      } else if(store.state.user.token && (to.meta.isGuest)){
+        next('/home')
+      }
+      else {
+        next()
+      }
+  })
 
 export default router
