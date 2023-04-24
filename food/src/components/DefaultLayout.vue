@@ -25,23 +25,23 @@
       <router-link
         to="/"
         class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
-        v-if="isLoggedIn"
+        
         >Home</router-link
       >
       <router-link
         to="/menu"
         class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
-        v-if="isLoggedIn"
+        
         >Menu</router-link
       >
       <router-link
         to="/foodCategory"
         class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
-        v-if="isLoggedIn"
+        
         >Category</router-link
       >
       <div>
-        <div class="relative" v-if="isLoggedIn">
+        <div class="relative" >
           <!-- Dropdown toggle button -->
           <button
             @click="show = !show"
@@ -92,29 +92,13 @@
         </div>
       </div>
   
-      <router-link
-        to="/register"
-        class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
-        v-if="!isLoggedIn"
-        >Sign up</router-link
-      >
-      <!--
-              <router-link to="/register"  v-if="!isLoggedIn" >
-                
-                <button class="  h-8 w-20 relative inline-flex  items-center justify-start overflow-hidden transition-all bg-white rounded hover:bg-white group">
-                  <span className="w-0 h-0 rounded bg-purple-600 absolute top-0 left-0 ease-out duration-300 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
-                  <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">Sign up</span>
-                </button>
-               
-              </router-link>
-           
-            -->
+
   
       <button
         id="navlink"
         class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
-        @click="handleSignOut"
-        v-if="isLoggedIn"
+        @click="logout"
+        
       >
         Sign Out
       </button>
@@ -124,21 +108,25 @@
   
   <script setup>
   import { onMounted, ref } from "vue";
-  
+  import { useStore } from "vuex";
   import { useRouter } from "vue-router";
   const router = useRouter();
-  const isLoggedIn = ref(false);
+  const store = useStore();
+
   const showMenu = ref(false);
   const toggleNav = () => {
     showMenu.value = !showMenu.value;
   };
   const show = ref(false);
-  import store from "../store";
-  
-  onMounted(() => {
-    if (store.state.user.token) {
-      isLoggedIn.value = true;
-    }
-  });
+
+
+
+  function logout () {
+    store.dispatch("logout")
+    .then(()=>{
+      router.push("/login");
+    })
+    
+  }
   </script>
   

@@ -39,7 +39,8 @@ class AuthController
             'email'=>'required|email|string|exists:users,email',
             'password' => [
                 'required'
-            ]
+            ],
+            'remember' => 'boolean'
         ]);
         $remember = $credentials['remember'] ?? false;
         unset($credentials['remember']);
@@ -56,6 +57,16 @@ class AuthController
         return response([
             'user'=>$user,
             'token'=>$token
+        ]);
+    }
+    public function logout()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->currentAccessToken()->delete();
+        return response([
+            'success' => true
         ]);
     }
 }

@@ -56,7 +56,7 @@
         >
           Register
         </button>
-        <button
+        <button type="submit"
           class="px-6 py-2 w-48 bg-indigo-600 rounded-xl text-white hover:bg-indigo-700 sm:text-sm"
           
         >
@@ -77,13 +77,10 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-
+import store from '../store';
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
 const router = useRouter()
 const errmsg = ref(null)
-const store = useStore()
-
 const user = {
   name:'',
   email:'',
@@ -95,7 +92,7 @@ function register(ev){
   ev.preventDefault()
   store.dispatch('register', user)
   .then((res) => {
-    router.push('/')
+    router.push('/home')
   })
   .catch(err => {
     errmsg.value = err.response.data.message

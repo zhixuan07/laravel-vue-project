@@ -1,27 +1,23 @@
-
 <template>
+  <div class="bg-white shadow-xl rounded px-8 py-7 pt-4 pb-8 w-80">
+    <form @submit="login">
+      <div class="mb-7 flex justify-center">
+        <h1
+          class="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent text-3xl font-black"
+        >
+          Login
+        </h1>
+      </div>
+      <div class="mb-8">
+        <label class="block mb-2 sm:text-sm">Email</label>
+        <input
+          class="rounded shadow appearance-none border px-2 py-2 w-full"
+          type="email"
+          placeholder="Email"
+          v-model="user.email"
+        />
+      </div>
 
-
-    <div class="bg-white shadow-xl rounded px-8 py-7 pt-4 pb-8 w-80">
-      <form @submit="login">
-        <div class="mb-7 flex justify-center">
-          <h1
-            class="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent text-3xl font-black"
-          >
-            Login
-          </h1>
-        </div>
-        <div class="mb-8">
-          <label class="block mb-2 sm:text-sm">Email</label>
-          <input
-            class="rounded shadow appearance-none border px-2 py-2 w-full"
-            type="email"
-            placeholder="Email"
-            v-model="user.email"
-          />
-        </div>
-      
-  
       <div class="mb-8">
         <label class="block mb-2 sm:text-sm">Password</label>
         <input
@@ -32,11 +28,23 @@
         />
         <p class="text-red-700 text-sm mt-1" v-if="errmsg">{{ errmsg }}</p>
       </div>
-  
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <input
+            name="remember-me"
+            type="checkbox"
+            v-model="user.remember"
+            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-200 rounded"
+          />
+          <label class="ml-2 block text-sm text-gray-900">Remember me</label>
+        </div>
+      </div>
+
       <div class="w-full flex flex-col items-center">
         <button
+          type="submit"
           class="block ml-18 px-6 py-2 w-48 mb-4 bg-indigo-600 rounded-xl text-white hover:bg-indigo-700 sm:text-sm"
-          
         >
           Login
         </button>
@@ -48,44 +56,43 @@
         </button>
       </div>
     </form>
-      <div class="mt-3 text-sm">
-        <p>
-          Don't have an account?
-          <span
-            ><router-link to="/register" class="text-blue-700 hover:text-blue-400"
-              >Register</router-link
-            >
-          </span>
-        </p>
-      </div>
+    <div class="mt-3 text-sm">
+      <p>
+        Don't have an account?
+        <span
+          ><router-link to="/register" class="text-blue-700 hover:text-blue-400"
+            >Register</router-link
+          >
+        </span>
+      </p>
     </div>
-  </template>
-  
-  <script setup>
-  import {ref} from "vue";
-  import { useStore } from 'vuex'
-  const store = useStore()
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
-  const email = ref("");
-  const password = ref("");
-  const errmsg = ref(null);
-  
-const user ={
-  email:'',
-  password:''
-}
+  </div>
+</template>
 
-function login(ev){
+<script setup>
+import { ref } from "vue";
+
+import store from "../store";
+import { useRouter } from "vue-router";
+const router = useRouter();
+const errmsg = ref(null);
+
+const user = {
+  email: "",
+  password: "",
+  remember: false,
+};
+
+function login(ev) {
   ev.preventDefault();
-  store.dispatch('login', user)
-  .then(() => {
-      router.push('/')
-  })
-  .catch(err => {
-    console.log(err)
-    errmsg.value = err.response.data.message
-  })
+  store
+    .dispatch("login", user)
+    .then(() => {
+      router.push("/home");
+    })
+    .catch((err) => {
+      console.log(err);
+      errmsg.value = err.response.data.message;
+    });
 }
-
-  </script>
+</script>
