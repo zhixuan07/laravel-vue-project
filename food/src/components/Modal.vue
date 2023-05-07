@@ -22,8 +22,9 @@
       <div class="mt-3 p-4">
         <h2 class="text-xl font-semibold">Instructions</h2>
         <h2>{{ food.instruction }}</h2>
+      </div>
   
-        <div class="flex flex-row justify-start mt-2">
+        <div class="flex flex-row justify-start p-4 gap-10 mt-2">
           <div class="mr-3">
             <h2 class="text-xl font-semibold">Ingredients</h2>
             <ul>
@@ -47,7 +48,7 @@
           </div>
         </div>
   
-        <div class="mt-3 flex justify-end">
+        <div class="mt-5 flex justify-end">
           <button
             @click="$emit('close')"
             class="px-6 py-2 text-blue-800 border border-blue-600 rounded"
@@ -56,7 +57,7 @@
           </button>
           <button class="px-6 py-2 ml-2 text-blue-100 bg-blue-600 rounded">Save</button>
         </div>
-      </div>
+      
     </div>
   </template>
   

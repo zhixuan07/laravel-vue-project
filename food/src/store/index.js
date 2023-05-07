@@ -7,7 +7,8 @@ const store = createStore({
             data: {},
             token :  sessionStorage.getItem('TOKEN')
         },
-        foodByName:[]
+        foodByName:[],
+        foodByCategory: []
     },
     mutations :{
         setUser(state, userData){
@@ -22,6 +23,9 @@ const store = createStore({
           },
           set_foodByName(state, payload) {
             state.foodByName = payload
+          },
+          set_foodByCategory(state, payload) {
+            state.foodByCategory = payload
           }
     },
     actions :{
@@ -49,6 +53,10 @@ const store = createStore({
         async searchFoodByName(context, food) {
           const response = await axiosFoodClient.get(`search.php?s=${food}`)
           context.commit('set_foodByName', response.data.meals)
+        },
+        async searchFoodByCategory(context, food) {
+          const response = await axiosFoodClient.get(`filter.php?c=${food}`)
+          context.commit('set_foodByCategory', response.data.meals)
         }
         
     },

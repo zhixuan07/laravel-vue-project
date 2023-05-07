@@ -5,7 +5,10 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: 
+      {theme : "url('/src/assets/background.jpeg') ,"},
+    },
   },
   plugins: [
     require('@tailwindcss/forms')

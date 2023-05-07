@@ -3,15 +3,7 @@
       <p>Menu</p>
     </div>
   
-    <div class="flex justify-center m-3 gap-3">
-      <input class="border shadow appearance-none w-2/5 h-10" type="text" v-model="searchName" />
-      <button
-        class="border shadow appearance-none w-20 rounded-lg hover:bg-purple-700 hover:text-white"
-        @click="search2"
-      >
-        Search
-      </button>
-    </div>
+   
   
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
       <div v-for="item of food" :key="item.idMeal" class="bg-white shadow-lg rounded-md">
@@ -23,7 +15,7 @@
           </div>
           
           <div class="flex justify-end m-3">
-            <button class="bg-indigo-600 rounded-lg w-20 h-10 text-white" @click="openModal(item)">
+            <button class="bg-indigo-600 rounded-lg w-20 h-10 text-white hover:bg-indigo-700" @click="openModal(item)">
               More Info
             </button>
           </div>
@@ -43,26 +35,16 @@
         </div>
       </Teleport>
     </div>
-  
-    <!---<Suspense>
-           <template #default>
-              
-          </template> 
-          <template #fallback>
-              <div class="flex justify-center items-center h-screen">
-                  <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-500"></div>
-              </div>
-          </template>
-      </Suspense> -->
   </template>
   
   <script setup>
   import { computed } from '@vue/reactivity'
+  import { useRoute } from 'vue-router'
   import { onMounted, ref } from 'vue'
   import { useStore } from 'vuex'
   import Modal from './Modal.vue'
   const store = useStore()
-  const searchName = ref(null)
+  const route = useRoute()
   const isOpen = ref(false)
   const modalInfo = ref(null)
   const ingredients = ref({})
@@ -80,19 +62,10 @@
   
   const food = computed(() => store.state.foodByName)
   
-  const filteredIngredients = computed(() => {
-    for (const key in modalInfo.value) {
-      if (key.startsWith('strIngredient')) {
-        ingredients[key] = modalInfo.value[key]
-      }
-    }
+  
+  onMounted(() => {
+    store.dispatch('searchFoodByName', route.params.recipeName)
   })
-  const search2 = async () => {
-    try {
-      await store.dispatch('searchFoodByName', searchName.value)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  
   </script>
   
