@@ -10,12 +10,21 @@
         </h1>
       </div>
       <div class="mb-8">
-        <label class="block mb-2 sm:text-sm">Name</label>
+        <label class="block mb-2 sm:text-sm">First Name</label>
         <input
           class="rounded shadow appearance-none border px-2 py-2 w-full"
           type="text"
           placeholder="Name"
-          v-model="user.name"
+          v-model="user.first_name"
+        />
+      </div>
+      <div class="mb-8">
+        <label class="block mb-2 sm:text-sm">Last Name</label>
+        <input
+          class="rounded shadow appearance-none border px-2 py-2 w-full"
+          type="text"
+          placeholder="Name"
+          v-model="user.last_name"
         />
       </div>
       <div class="mb-8">
@@ -82,7 +91,8 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const errmsg = ref(null)
 const user = {
-  name:'',
+  first_name:'',
+  last_name:'',
   email:'',
   password:'',
   password_confirmation:''

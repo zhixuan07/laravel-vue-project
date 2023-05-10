@@ -25,6 +25,11 @@ const router = createRouter({
                     name: "categoryItem",
                     component: () => import("../components/CategoryItem.vue"),
                 },
+                {
+                    path:"/account",
+                    name:"account",
+                    component: () => import("../view/Account.vue")
+                }
             ],
         },
         {

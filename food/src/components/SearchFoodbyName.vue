@@ -5,7 +5,7 @@
   
    
   
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 p-10">
       <div v-for="item of food" :key="item.idMeal" class="bg-white shadow-lg rounded-md">
         <img class="h-60 w-full object-cover rounded-md" :src="item.strMealThumb" :alt="N / A" />
         <div>

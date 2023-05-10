@@ -25,23 +25,29 @@
     <router-link
       to="/"
       class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
+      v-if="isLoggedIn"
       >Home</router-link
     >
-    
+
     <router-link
       to="/category"
       class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
+      v-if="isLoggedIn"
       >Category</router-link
     >
     <div>
-      <div >
+      <div class="relative" v-if="isLoggedIn">
         <!-- Dropdown toggle button -->
         <button
           @click="show = !show"
-          class="flex items-center text-white-100 rounded-md"
+          id="dropdownHoverButton"
+          data-dropdown-toggle="dropdownHover"
+          data-dropdown-trigger="hover"
+          class="flex items-center p-2 text-indigo-100 rounded-md "
         >
           <span
-            class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
+          
+            class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200  hover:text-purple-700 duration-200 "
             >Profile</span
           >
           <svg
@@ -61,7 +67,8 @@
         <!-- Dropdown menu -->
         <div
           v-show="show"
-          class=" right-0 py-2 mt-2 bg-indigo-500 rounded-md shadow-xl w-44"
+          id="dropdownHover"
+          class="absolute z-10 right-0 py-2 mt-2 bg-indigo-500 rounded-md shadow-xl w-44 sm:static"
         >
           <router-link
             to="/account"
@@ -70,43 +77,55 @@
             Account
           </router-link>
           <router-link
-            to="/savedrecipes"
+            to=""
             class="block px-4 py-2 text-sm text-indigo-100 hover:bg-indigo-400 hover:text-indigo-100"
           >
             Saved Recipes
           </router-link>
-          
+
+          <a
+            class="block px-4 py-2 text-sm text-indigo-100 hover:bg-indigo-400 hover:text-indigo-100"
+            @click="handleSignOut"
+            v-if="isLoggedIn"
+          >
+            Sign Out
+          </a>
         </div>
       </div>
     </div>
 
-    <a
-      id="navlink"
+    <router-link
+      to="/register"
       class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
-      @click="logout"
+      v-if="!isLoggedIn"
+      >Sign up</router-link
     >
-      Sign Out
-    </a>
   </nav>
   <RouterView />
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { useStore } from "vuex";
+
 import { useRouter } from "vue-router";
 const router = useRouter();
-const store = useStore();
-
+const isLoggedIn = ref(false);
 const showMenu = ref(false);
 const toggleNav = () => {
   showMenu.value = !showMenu.value;
 };
 const show = ref(false);
+import store from "../store";
 
-function logout() {
-  store.dispatch("logout").then(() => {
-    router.push("/login");
-  });
+function handleSignOut (){
+  store.dispatch('logout')
+  .then(() => {
+    router.push('/login')
+  })
 }
+onMounted(() => {
+  if (store.state.user.token) {
+    isLoggedIn.value = true;
+  }
+});
 </script>
