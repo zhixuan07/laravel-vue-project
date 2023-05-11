@@ -1,6 +1,10 @@
 import { createStore } from 'vuex'
 import axiosClient from '../axios'
 import axiosFoodClient from '../axiosFoodClient';
+function updateLocalStorage(savedRecipe) {
+   
+    localStorage.setItem('savedRecipe', JSON.stringify(savedRecipe))
+  }
 const store = createStore({
     state :{
         user:{
@@ -8,7 +12,8 @@ const store = createStore({
             token :  sessionStorage.getItem('TOKEN')
         },
         foodByName:[],
-        foodByCategory: []
+        foodByCategory: [],
+        savedRecipe:[]
     },
     mutations :{
         setUser(state, userData){
@@ -26,6 +31,16 @@ const store = createStore({
           },
         set_foodByCategory(state, payload) {
             state.foodByCategory = payload
+          },
+        addRecipe(state, recipe) {
+
+            state.savedRecipe.push(recipe)
+            updateLocalStorage(state.savedRecipe)
+          },
+        setSavedRecipe(state, savedRecipe) {
+            state.savedRecipe = savedRecipe
+            return state.savedRecipe
+           
           }
     },
     actions :{
@@ -66,11 +81,32 @@ const store = createStore({
         async searchFoodByCategory(context, food) {
           const response = await axiosFoodClient.get(`filter.php?c=${food}`)
           context.commit('set_foodByCategory', response.data.meals)
-        }
+        },
+        addRecipe({commit,state}, recipe) {
+            
+            const recipeIndex = state.savedRecipe.findIndex(savedRecipe => savedRecipe.id === recipe.id)
+            if (recipeIndex === -1) {
+              commit('addRecipe', recipe);
+              localStorage.setItem('savedRecipe', JSON.stringify(state.savedRecipe));
+              return true;
+            } else {
+              return false;
+            }
+          },
+        loadSavedRecipe({commit}) {
+            const savedRecipe = localStorage.getItem('savedRecipe');
+            if (savedRecipe) {
+              commit('setSavedRecipe', JSON.parse(savedRecipe));
+            }else{
+              alert('No saved recipe')
+            }
+          }
         
     },
 
-    getters :{}
+    getters :{
+
+    }
 
 })
 export default store

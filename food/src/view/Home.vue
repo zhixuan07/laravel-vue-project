@@ -1,6 +1,6 @@
 <template>
   <div
-    class=" z-0 bg-theme relative overflow-hidden rounded-sm bg-cover bg-no-repeat p-12 text-center"
+    class=" z-0 bg-theme relative overflow-hidden rounded-sm bg-cover bg-no-repeat p-12 text-center sm:bg-fit"
     style="background-image: url('/src/assets/background.jpeg'); height: 500px"
   >
     <div
@@ -44,14 +44,14 @@
         <img
           class="h-60 w-full object-cover rounded-md"
           :src="item.strMealThumb"
-          :alt="N / A"
+          alt="N / A"
         />
         <div class="h-40">
           <div class=" pl-3 pt-2">
-            <p class="text-md font-bold">{{ item.strMeal }}</p>
+            <p class="text-md font-semibold">{{ item.strMeal }}</p>
           </div>
 
-          <div class="flex justify-end mt-16 mr-3">
+          <div class="flex justify-end mt-20 mr-3">
             <button
               class="absolute h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100"
               @click="openModal(item)"
@@ -67,15 +67,20 @@
           class="fixed inset-0 flex items-center justify-center h-full bg-gray-400 bg-opacity-50"
         >
           <modal
+            :id="modalInfo.idMeal"
             :name="modalInfo.strMeal"
             :instruction="modalInfo.strInstructions"
             :ingredient="modalInfo"
+            :img="modalInfo.strMealThumb"
+            :category="modalInfo.strCategory"
             @close="closeModal"
           />
         </div>
       </Teleport>
     </div>
   </div>
+
+
 </template>
 
 <script setup>
@@ -92,6 +97,10 @@ const modalInfo = ref(null);
 const recipeName = ref(null);
 const recipe = ref([]);
 const searchRecipe = () => {
+  if(recipeName.value === null || recipeName.value === ""){
+    alert('please enter a recipe name')
+    return
+  };
   router.push({ name: "recipe", params: { recipeName: recipeName.value } });
 };
 
@@ -106,7 +115,6 @@ onMounted(() =>
 const openModal = (item) => {
   isOpen.value = true;
   document.body.classList.add("overflow-hidden");
-  console.log(item.idMeal);
   axiosFoodClient.get(`lookup.php?i=${item.idMeal}`).then(({ data }) => {
     modalInfo.value = data.meals[0];
   });

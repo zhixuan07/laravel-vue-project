@@ -29,6 +29,11 @@ const router = createRouter({
                     path:"/account",
                     name:"account",
                     component: () => import("../view/Account.vue")
+                },
+                {
+                    path:"/savedRecipe",
+                    name:"savedRecipe",
+                    component: () => import("../view/SavedRecipe.vue")
                 }
             ],
         },

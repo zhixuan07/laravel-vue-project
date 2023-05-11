@@ -2,6 +2,7 @@
     <div class="max-w-2xl h-3/5 p-6 bg-white rounded-md shadow-xl overflow-auto">
       <div class="flex items-center justify-between p-3">
         <h3 class="text-2xl">{{ food.name }}</h3>
+
   
         <svg
           @click="$emit('close')"
@@ -55,21 +56,42 @@
           >
             Cancel
           </button>
-          <button class="px-6 py-2 ml-2 text-blue-100 bg-blue-600 rounded">Save</button>
+          <button @click="addToFavorites" class="px-6 py-2 ml-2 text-blue-100 bg-blue-600 rounded">Save Recipe</button>
         </div>
       
     </div>
   </template>
   
   <script setup>
-  import { ref, defineEmits } from 'vue'
-  
+  import { computed } from '@vue/reactivity';
+import { ref, defineEmits } from 'vue'
+  import store from '../store'
+
   const food = defineProps({
+    id: String,
     name: String,
     instruction: String,
-    ingredient: Array
+    ingredient: Array,
+    img : String,
+    category: String
+
   })
-  
   defineEmits('close')
+
+function addToFavorites(){
+  
+  store.dispatch('addRecipe', food)
+        .then(result => {
+          if (result) {
+            alert('Recipe added to favorites!');
+          } else {
+            alert('Recipe already in favorites!');
+          }})
+  
+  
+ 
+}
+
+    
   </script>
   

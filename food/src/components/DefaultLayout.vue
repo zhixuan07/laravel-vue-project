@@ -77,7 +77,7 @@
             Account
           </router-link>
           <router-link
-            to=""
+            to="/savedRecipe"
             class="block px-4 py-2 text-sm text-indigo-100 hover:bg-indigo-400 hover:text-indigo-100"
           >
             Saved Recipes
