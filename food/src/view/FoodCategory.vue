@@ -22,7 +22,7 @@ onMounted(() => {
 <template>
   <div>
     <div class="flex justify-center mt-6 mb-6 font-semibold text-2xl">
-        <h1>Category</h1>
+        <h1>Browse Recipe</h1>
     </div>
     
 

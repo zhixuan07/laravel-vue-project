@@ -51,9 +51,13 @@
             <p class="text-md font-semibold">{{ item.strMeal }}</p>
           </div>
 
-          <div class="flex justify-end mt-20 mr-3">
+          <div class="flex justify-between mt-20  pl-2 pr-2 ">
+            <span
+              class="inline-block bg-gray-200 rounded-full px-3 py-1 sm:text-xs text-sm font-semibold text-gray-700 mr-2 mb-2 sm:px-3 sm:py-3 "
+              >#{{ item.strCategory }}</span
+            >
             <button
-              class="absolute h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100"
+              class=" h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100"
               @click="openModal(item)"
             >
               More Info

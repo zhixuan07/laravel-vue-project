@@ -38,10 +38,16 @@ const store = createStore({
             updateLocalStorage(state.savedRecipe)
           },
         setSavedRecipe(state, savedRecipe) {
+            
             state.savedRecipe = savedRecipe
-            return state.savedRecipe
+            updateLocalStorage(state.savedRecipe)
+            
            
-          }
+          },
+          removeSavedRecipe(state, recipeId) {
+            state.savedRecipe = state.savedRecipe.filter(savedRecipe => savedRecipe.id !== recipeId);
+            updateLocalStorage(state.savedRecipe)
+          },
     },
     actions :{
         register({commit}, user){
@@ -100,7 +106,20 @@ const store = createStore({
             }else{
               alert('No saved recipe')
             }
-          }
+          },
+          removeSavedRecipe({commit,state}, recipeId) {
+            const recipeIndex = state.savedRecipe.findIndex(savedRecipe => savedRecipe.id === recipeId)
+            if (recipeIndex !== -1) {
+              commit('removeSavedRecipe', recipeId);
+  
+              console.log(state.savedRecipe)
+              alert('Recipe removed')
+              }else{
+                console.log('error')
+                return false
+              }
+            }
+          ,
         
     },
 
