@@ -12,6 +12,7 @@ const modalInfo = ref(null);
 
 const openModal = (item) => {
   isOpen.value = true;
+  
   document.body.classList.add("overflow-hidden");
   console.log(item.idMeal);
   axiosFoodClient.get(`lookup.php?i=${item.idMeal}`).then(({ data }) => {
@@ -28,6 +29,7 @@ const food = computed(() => store.state.foodByCategory);
 
 onMounted(() => {
   store.dispatch("searchFoodByCategory", route.params.category);
+  
 });
 </script>
 
@@ -46,7 +48,7 @@ onMounted(() => {
         <img
           class="h-60 w-full object-cover rounded-md"
           :src="item.strMealThumb"
-          :alt="N / A"
+          alt="N / A"
         />
         <div>
           <div class="m-3">

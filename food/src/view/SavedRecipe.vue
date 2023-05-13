@@ -48,17 +48,31 @@
               >#{{ food.category }}</span
             >
             <div class="flex sm:text-xs md:text-sm lg:text-sm ">
-                <a class="text-indigo-500  cursor-pointer sm:hidden"  > View Instructions</a>
-                <a class="text-indigo-500  cursor-pointer" > <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                <a class="text-indigo-500  cursor-pointer sm:hidden"  @click="openInstruction(food)" > View Instructions</a>
+                <a class="text-indigo-500  cursor-pointer"  @click="openInstruction(food)"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                 <path fill-rule="evenodd" d="M10.21 14.77a.75.75 0 01.02-1.06L14.168 10 10.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
                 <path fill-rule="evenodd" d="M4.21 14.77a.75.75 0 01.02-1.06L8.168 10 4.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                </svg></a>
+                </svg>
+              </a>
                 
                 
                 
                 
                     
             </div>
+            <Teleport to="body">
+        <div
+          v-if="isOpen"
+          class="fixed inset-0 flex items-center justify-center h-full bg-gray-400 bg-opacity-50"
+        >
+          <InstructionModal
+           
+            :instruction="food.instruction"
+            
+            @close="closeInstruction"
+          />
+        </div>
+      </Teleport>
             
 
           </div>
@@ -69,17 +83,30 @@
 </template>
 <script setup>
 import { computed } from "@vue/reactivity";
-import { onMounted } from "vue";
+import { onMounted,ref } from "vue";
 import store from "../store";
+import InstructionModal from '../components/InstructionModal.vue'
+const isOpen = ref(false);
 const recipe = computed(() => store.state.savedRecipe);
 onMounted(() => {
   store.dispatch("loadSavedRecipe");
   console.log(store.state.savedRecipe);
-  console.log(recipe.value);
+  
+  
 });
 
 const removeRecipe = (foodId) => {
   store.dispatch("removeSavedRecipe", foodId);
+};
+
+const openInstruction = (food) => {
+  document.body.classList.add("overflow-hidden");
+  isOpen.value = true;
+
+};
+const closeInstruction = () => {
+  document.body.classList.remove("overflow-hidden");
+  isOpen.value = false;
 };
 
 </script>
