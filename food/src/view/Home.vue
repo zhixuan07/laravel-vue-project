@@ -31,7 +31,10 @@
 
   <div class="">
     <div class="text-3xl flex justify-center m-10 font-bold">
-      <h1>Latest Recipes</h1>
+      <h1 class="animate-text bg-gradient-to-r from-teal-500 via-purple-500 to-orange-500 bg-clip-text text-transparent text-3xl font-black"
+      >Latest Recipes
+    </h1>
+  
     </div>
     <div
       class="  grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 p-20 h-full  sm:p-12 "
@@ -42,11 +45,7 @@
         :key="item.idMeal"
         class="bg-white shadow-md rounded-md relative"
       >
-      <a class="absolute top-0 right-0 cursor-pointer p-1">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-    </svg>
-    </a>
+    
         <img
           class="h-60 w-full object-cover rounded-md"
           :src="item.strMealThumb"
@@ -77,12 +76,12 @@
           class="fixed inset-0 flex items-center justify-center h-full bg-gray-400 bg-opacity-50"
         >
           <modal
-            :id="modalInfo.idMeal"
-            :name="modalInfo.strMeal"
-            :instruction="modalInfo.strInstructions"
-            :ingredient="modalInfo"
-            :img="modalInfo.strMealThumb"
-            :category="modalInfo.strCategory"
+            :recipe_id="modalInfo.idMeal"
+            :recipe_name="modalInfo.strMeal"
+            :recipe_instruction="modalInfo.strInstructions"
+            :recipe_ingredient="modalInfo"
+            :recipe_image="modalInfo.strMealThumb"
+            :recipe_category="modalInfo.strCategory"
             @close="closeModal"
           />
         </div>
@@ -109,6 +108,7 @@ const modalInfo = ref(null);
 const recipeName = ref(null);
 const recipe = ref([]);
 const user  = store.state.user
+
 const searchRecipe = () => {
   if(recipeName.value === null || recipeName.value === ""){
     alert('please enter a recipe name')
@@ -128,16 +128,19 @@ onMounted(() =>
 
 
 const openModal = (item) => {
-  console.log(user)
+  
   isOpen.value = true;
   document.body.classList.add("overflow-hidden");
   axiosFoodClient.get(`lookup.php?i=${item.idMeal}`).then(({ data }) => {
     modalInfo.value = data.meals[0];
   });
   
+  
 };
 const closeModal = () => {
   isOpen.value = false;
   document.body.classList.remove("overflow-hidden");
 };
+
+
 </script>

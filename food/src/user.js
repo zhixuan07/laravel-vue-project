@@ -1,13 +1,13 @@
 import { computed, ref } from "vue";
 import axiosClient from "./axios";
 import store from "./store";
-import createPersistedState from 'vuex-persistedstate'
+
 function useUser  () {
     
         const user = ref([]); //from api call data
         const errors = ref("");
-        const usersString = localStorage.getItem('setUsers')
-        const usersObject = JSON.parse(usersString)
+        const usersString = localStorage.getItem('setUsers')// JSON string
+        const usersObject = JSON.parse(usersString) // convert to JSON object
       
         const updateUser = async () => {
             errors.value = ''
@@ -26,9 +26,10 @@ function useUser  () {
             }
         }
         const showUser = async () => {
-            console.log(usersObject)
+            
             let response = await axiosClient.get(`/users/${usersObject.id}`);
             user.value = response.data.data;
+            console.log(user)
             
             
         };

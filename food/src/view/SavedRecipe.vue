@@ -11,7 +11,7 @@
         <div class=" ">
             <img
           class="h-60 w-full object-cover rounded-md"
-          :src="food.img"
+          :src="food.recipe_image"
           alt="N / A"
         />
        
@@ -19,33 +19,15 @@
         </div>
         
         <div class="h-fit-content w-full pl-4 pt-4 pr-2">
-          <h1 class="text-lg font-semibold">{{ food.name }}</h1>
+          <h1 class="text-lg font-semibold">{{ food.recipe_name }}</h1>
           <div class="flex justify-start gap-10">
-            <p class="text-md font-sana">Ingredient</p>
-            <h2 class="text-md font-sana">Measures</h2>
+            
           </div>
 
-          <div class="flex justify-start gap-12">
-            <ul>
-              <template v-for="(el, ind) of new Array(20)">
-                <li v-if="food.ingredient[`strIngredient${ind + 1}`]">
-                  {{ food.ingredient[`strIngredient${ind + 1}`] }}
-                </li>
-              </template>
-            </ul>
-
-            <ul>
-              <template v-for="(el, ind) of new Array(20)">
-                <li v-if="food.ingredient[`strMeasure${ind + 1}`]">
-                  {{ food.ingredient[`strMeasure${ind + 1}`] }}
-                </li>
-              </template>
-            </ul>
-          </div>
           <div class=" flex justify-between items-center w-full mt-4 sm:text-xs md:text-sm lg:text-sm">
             <span
               class="inline-block bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2 sm:px-3 sm:py-3 "
-              >#{{ food.category }}</span
+              >#{{ food.recipe_category }}</span
             >
             <div class="flex sm:text-xs md:text-sm lg:text-sm ">
                 <a class="text-indigo-500  cursor-pointer sm:hidden"  @click="openInstruction(food)" > View Instructions</a>
@@ -66,9 +48,9 @@
           class="fixed inset-0 flex items-center justify-center h-full bg-gray-400 bg-opacity-50"
         >
           <InstructionModal
-           
-            :instruction="food.instruction"
-            
+            :recipe_id="food.recipe_id"
+            :recipe_instruction="food.recipe_instruction"
+            :recipe_ingredient="ingredient"
             @close="closeInstruction"
           />
         </div>
@@ -85,22 +67,33 @@
 import { computed } from "@vue/reactivity";
 import { onMounted,ref } from "vue";
 import store from "../store";
+import axiosFoodClient from "../axiosFoodClient";
 import InstructionModal from '../components/InstructionModal.vue'
 const isOpen = ref(false);
-const recipe = computed(() => store.state.savedRecipe);
-onMounted(() => {
-  store.dispatch("loadSavedRecipe");
-  console.log(store.state.savedRecipe);
+const ingredient = ref([]);
+import useRecipe from '../recipe';
+const {showRecipe,recipe,deleteRecipe} = useRecipe();
+
+onMounted(async() => {
+  
+
+    showRecipe();
+  
+    return recipe
   
   
 });
 
 const removeRecipe = (foodId) => {
-  store.dispatch("removeSavedRecipe", foodId);
+  deleteRecipe(foodId);
+  
 };
 
-const openInstruction = (food) => {
+const openInstruction = async (food) => {
   document.body.classList.add("overflow-hidden");
+   let response = await axiosFoodClient.get(`/lookup.php?i=${food.recipe_id}`);
+  
+  ingredient.value = response.data.meals[0];
   isOpen.value = true;
 
 };

@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import axiosClient from "../axios";
 import axiosFoodClient from "../axiosFoodClient";
-import createPersistedState from "vuex-plugin-persistedstate";
+
 function updateLocalStorage(savedRecipe) {
     localStorage.setItem("savedRecipe", JSON.stringify(savedRecipe));
 }

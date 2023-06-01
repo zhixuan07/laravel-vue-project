@@ -1,14 +1,20 @@
 <script setup>
 import axiosFoodClient from "../axiosFoodClient";
 import { onMounted, ref } from "vue";
-
 import { useRouter } from "vue-router";
 
 const foodList = ref([]);
 const router = useRouter();
-
+const recipeName = ref(null);
 const openCategoryItem = (item) => {
   router.push({ name: "categoryItem", params: { category: item.strCategory } });
+};
+const searchRecipe = () => {
+  if (recipeName.value === null || recipeName.value === "") {
+    alert("please enter a recipe name");
+    return;
+  }
+  router.push({ name: "recipe", params: { recipeName: recipeName.value } });
 };
 
 onMounted(() => {
@@ -21,7 +27,10 @@ onMounted(() => {
 <template>
   <div
     class="z-0 bg-theme relative overflow-hidden rounded-sm bg-cover bg-no-repeat p-12 text-center sm:bg-fit"
-    style="background-image: url('/src/assets/categoryBackground.jpeg'); height: 500px"
+    style="
+      background-image: url('/src/assets/categoryBackground.jpeg');
+      height: 500px;
+    "
   >
     <div
       class="absolute z-0 bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed"
@@ -54,7 +63,7 @@ onMounted(() => {
         <div
           v-for="item of foodList"
           :key="item.idCategory"
-          class="bg-grey-200 bg-opacity-30  shadow-md  border-1"
+          class="bg-grey-200 bg-opacity-30 shadow-md border-1"
         >
           <img
             class="h-fit-content w-full object-fit rounded-lg border-1 border-gray-400 p-2"
@@ -68,7 +77,7 @@ onMounted(() => {
 
             <div class="flex justify-end pr-3 pb-3">
               <button
-                class="bg-indigo-600 rounded-lg w-20 h-10  text-white"
+                class="bg-indigo-600 rounded-lg w-20 h-10 text-white"
                 @click="openCategoryItem(item)"
               >
                 More Info
@@ -76,19 +85,6 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <Teleport to="body">
-          <div
-            v-if="isOpen"
-            class="fixed inset-0 flex items-center justify-center h-full bg-gray-400 bg-opacity-50"
-          >
-            <info-card
-              :name="cardInfo.strMeal"
-              :instruction="cardInfo.strInstructions"
-              :ingredient="cardInfo"
-              @close="closeModal"
-            />
-          </div>
-        </Teleport>
       </div>
     </div>
   </div>

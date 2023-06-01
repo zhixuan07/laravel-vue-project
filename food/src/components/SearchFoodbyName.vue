@@ -27,9 +27,12 @@
           class="fixed inset-0 flex items-center justify-center h-full bg-gray-400 bg-opacity-50"
         >
           <modal
-            :name="modalInfo.strMeal"
-            :instruction="modalInfo.strInstructions"
-            :ingredient="modalInfo"
+            :recipe_id="modalInfo.idMeal"
+            :recipe_name="modalInfo.strMeal"
+            :recipe_instruction="modalInfo.strInstructions"
+            :recipe_ingredient="modalInfo"
+            :recipe_image="modalInfo.strMealThumb"
+            :recipe_category="modalInfo.strCategory"
             @close="closeModal"
           />
         </div>

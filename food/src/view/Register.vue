@@ -1,6 +1,6 @@
 \
 <template>
-  <div class="bg-white shadow-md rounded px-8 py-7 pt-4 pb-8 w-80">
+  <div class="bg-white shadow-md  rounded px-8 py-5 pt-4 pb-5 w-80 sm:p-12 ">
     <form @submit="register">
       <div class="mb-7 flex justify-center">
         <h1
@@ -9,7 +9,7 @@
           Register
         </h1>
       </div>
-      <div class="mb-8">
+      <div class="mb-3">
         <label class="block mb-2 sm:text-sm">First Name</label>
         <input
           class="rounded shadow appearance-none border px-2 py-2 w-full"
@@ -18,7 +18,7 @@
           v-model="user.first_name"
         />
       </div>
-      <div class="mb-8">
+      <div class="mb-3">
         <label class="block mb-2 sm:text-sm">Last Name</label>
         <input
           class="rounded shadow appearance-none border px-2 py-2 w-full"
@@ -27,7 +27,7 @@
           v-model="user.last_name"
         />
       </div>
-      <div class="mb-8">
+      <div class="mb-3">
         <label class="block mb-2 sm:text-sm">Email</label>
         <input
           class="rounded shadow appearance-none border px-2 py-2 w-full"
@@ -36,7 +36,7 @@
           v-model="user.email"
         />
       </div>
-      <div class="mb-8">
+      <div class="mb-3">
         <label class="block mb-2 sm:text-sm">Password</label>
         <input
           class="rounded border shadow appearance-none px-2 py-2 w-full"
@@ -47,7 +47,7 @@
         <p class="text-red-700 text-sm" v-if="errmsg">{{ errmsg }}</p>
       </div>
 
-      <div class="mb-8">
+      <div class="mb-3">
         <label class="block mb-2 sm:text-sm">Password Confirmation</label>
         <input
           class="rounded border shadow appearance-none px-2 py-2 w-full"
@@ -65,12 +65,7 @@
         >
           Register
         </button>
-        <button type="submit"
-          class="px-6 py-2 w-48 bg-indigo-600 rounded-xl text-white hover:bg-indigo-700 sm:text-sm"
-          
-        >
-          Sign in With Google
-        </button>
+       
       </div>
     </form>
 
@@ -81,6 +76,7 @@
           ><router-link to="/login" class="text-blue-700 hover:text-blue-400">Login</router-link>
         </span>
       </p>
+     
     </div>
   </div>
 </template>

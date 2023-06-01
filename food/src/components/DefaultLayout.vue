@@ -22,6 +22,7 @@
     :class="showMenu ? 'flex' : 'hidden'"
     class="flex-col p-2 text-white bg-purple-300 space-y-4 md:bg-gradient-to-r md:from-indigo-500 via-purple-500 md:to-pink-500 md:h-10 md:flex md:space-y-0 md:flex-row md:items-center md:justify-end md:space-x-10 md:mt-0"
   >
+
     <router-link
       to="/"
       class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
@@ -35,6 +36,7 @@
       v-if="isLoggedIn"
       >Category</router-link
     >
+    
     <div>
       <div class="relative" v-if="isLoggedIn">
         <!-- Dropdown toggle button -->
@@ -43,7 +45,7 @@
           id="dropdownHoverButton"
           data-dropdown-toggle="dropdownHover"
           data-dropdown-trigger="hover"
-          class="flex items-center p-2 text-indigo-100 rounded-md "
+          class="flex items-center p-2 text-white rounded-md "
         >
           <span
           
@@ -102,6 +104,70 @@
     >
   </nav>
   <RouterView />
+
+<footer class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <div class="md:flex md:justify-between">
+          <div class="mb-6 md:mb-0">
+              <a href="" class="flex items-center">
+                 
+                <img src="../assets/logo.png" alt="logo" class="h-20 w-60" />
+              </a>
+          </div>
+          <div class="grid grid-cols-3 gap-10 sm:gap-6 sm:grid-cols-3">
+              <div>
+                  <h2 class="mb-6 text-sm font-semibold text-white uppercase dark:text-white">General</h2>
+                  <ul class="text-gray-600 dark:text-gray-400 font-medium">
+                      
+                      <li class="mb-4">
+                          <RouterLink to="/" class="hover:underline">Home</RouterLink>
+                          
+                      </li>
+                      <li class="mb-4">
+                          <RouterLink to="/" class="hover:underline">Restaurant</RouterLink>
+                          
+                      </li>
+                      <li>
+                          <RouterLink to="/" class="hover:underline">Search Recipe</RouterLink>
+                          
+                      </li>
+                  </ul>
+              </div>
+              <div>
+                  <h2 class="mb-6 text-sm font-semibold text-white  uppercase dark:text-white">Category</h2>
+                  <ul class="text-gray-600 dark:text-gray-400 font-medium">
+                      <li class="mb-4">
+                          <RouterLink to="/categoryItem/Chicken" class="hover:underline ">Chicken</RouterLink>
+                      </li>
+                      <li class="mb-4">
+                          <a href="" class="hover:underline">Beef</a>
+                      </li>
+                      <li class="mb-4">
+                          <a href="" class="hover:underline">Salmon</a>
+                      </li>
+                      <li class="mb-4"> 
+                          <a href="" class="hover:underline">Vegetarian</a>
+                      </li>
+                  </ul>
+              </div>
+              <div>
+                  <h2 class="mb-6 text-sm font-semibold text-white  uppercase dark:text-white">Profile</h2>
+                  <ul class="text-gray-600 dark:text-gray-400 font-medium">
+                      <li class="mb-4">
+                          <a href="#" class="hover:underline">Account</a>
+                      </li>
+                      <li>
+                          <a href="#" class="hover:underline">Saved Recipe</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <hr class="my-6 border-white sm:mx-auto dark:border-gray-700 lg:my-8" />
+     
+    </div>
+</footer>
+
 </template>
 
 <script setup>

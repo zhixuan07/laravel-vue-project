@@ -3,8 +3,8 @@ export default {
     content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
     theme: {
         screens: {
-            sm: { min: "300px", max: "699px" },
-            md: { min: "700px", max: "1600px" },
+            sm: { min: "300px", max: "600px" },
+            md: { min: "601px", max: "1600px" },
             lg: { min: "1601px", max: "2000px" },
         },
         extend: {
