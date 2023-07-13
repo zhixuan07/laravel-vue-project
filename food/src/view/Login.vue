@@ -20,24 +20,35 @@
 
       <div class="mb-8">
         <label class="block mb-2 sm:text-sm">Password</label>
+        
         <input
+          v-if="showPassword"
+          class="rounded border shadow appearance-none px-2 py-2 w-full"
+          type="text"
+          placeholder="Password"
+          v-model="user.password"
+        />
+        <input
+        v-else="!showPassword"
           class="rounded border shadow appearance-none px-2 py-2 w-full"
           type="password"
           placeholder="Password"
           v-model="user.password"
         />
+
         <p class="text-red-700 text-sm mt-1" v-if="errmsg">{{ errmsg }}</p>
       </div>
 
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <input
-            name="remember-me"
+            name="show password"
             type="checkbox"
-            v-model="user.remember"
+            id="showPassword"
+            v-model="showPassword"
             class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-200 rounded"
           />
-          <label class="ml-2 block text-sm text-gray-900">Remember me</label>
+          <label class="ml-2 block text-sm text-gray-900">Show Password</label>
         </div>
       </div>
 
@@ -60,12 +71,7 @@
           >
         </span>
       </p>
-      <p>
-        Forgot Password?
-        <span
-          ><router-link to="/login" class="text-blue-700 hover:text-blue-400">Reset</router-link>
-        </span>
-      </p>
+     
     </div>
   </div>
 </template>
@@ -78,6 +84,7 @@ const router = useRouter();
 const errmsg = ref(null);
 
 const  store = useStore();
+const showPassword = ref(false);
 
 const user = {
   email: "",

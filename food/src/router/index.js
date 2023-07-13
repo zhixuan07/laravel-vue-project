@@ -2,14 +2,29 @@ import { createRouter, createWebHistory } from "vue-router";
 import store from "../store";
 const router = createRouter({
     history: createWebHistory(),
+    
     routes: [
+        
+        { 
+        path: "/home", component: () => import("../components/DefaultLayout.vue"),
+        meta: { requiresAuth: false },
+        children: [
+            {
+                path: "/home",
+                name: "home",
+                component: () => import("../view/Home.vue"),
+            },]
+            },
+        
+            
+        
         {
             path: "/",
             redirect: "/home",
             component: () => import("../components/DefaultLayout.vue"),
             meta: { requiresAuth: true },
             children: [
-                { path: "/home", component: () => import("../view/Home.vue") },
+                
                 {
                     path: "/recipe/:recipeName",
                     name: "recipe",
@@ -34,6 +49,11 @@ const router = createRouter({
                     path:"/savedRecipe",
                     name:"savedRecipe",
                     component: () => import("../view/SavedRecipe.vue")
+                },
+                {
+                    path:"/restaurant",
+                    name:"restaurant",
+                    component: () => import("../view/Restaurant.vue")
                 }
             ],
         },
@@ -52,9 +72,12 @@ const router = createRouter({
                     path: "/register",
                     component: () => import("../view/Register.vue"),
                 },
+                
             ],
         },
-    ],
+        
+    ]
+    
 });
 
 router.beforeEach((to, from, next) => {

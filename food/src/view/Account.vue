@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="flex flex-col items-center justify-center py-2">
-      <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center py-2 ">
+      <div class="flex flex-col items-center justify-center p-4">
         <h1 class="text-4xl font-bold">Account</h1>
         <p class="text-xl mt-3">Welcome to your profile page</p>
 
@@ -43,6 +43,24 @@
                 />
               </div>
             </div>
+            
+            <div class="md:col-span-4">
+              <label
+                for="password"
+                class="block text-sm font-medium leading-6 text-gray-900"
+                >Password</label
+              >
+              <div class="mt-2">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="password"
+                  v-model="user.password" 
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 bg-opacity-50 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
 
             <div class="md:col-span-4">
               <label
@@ -70,13 +88,7 @@
                 Save Change
               </button>
             </div>
-            <div class="md:col-span-3">
-              <button
-                class="rounded-lg bg-white h-8 w-full leading-6 text-blue-400 border-0 ring-1 ring-gray-300 text-sm font-bold"
-              >
-                Reset Password
-              </button>
-            </div>
+            
           </div>
         </form>
       </div>
@@ -87,18 +99,21 @@
 import { computed } from "@vue/reactivity";
 import { ref, onBeforeMount, onMounted } from "vue";
 import useUser from "../user";
-import { useStore } from "vuex";
-const store = useStore();
 const {showUser,updateUser,user}  = useUser();
 
 
 
 const saveAccount = async () => {
-  await updateUser();
+  if(user.password===""){
+    alert("Password is required")
+    return
+  }else{
+    await updateUser(user);
+    
+  }
+  
 
 };
-
-
 
 
 onMounted(() => {

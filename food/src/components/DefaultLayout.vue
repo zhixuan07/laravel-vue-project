@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+  <div class="sticky top bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
     <div
       @click="toggleNav"
       class="flex justify-end items-center mr-2 h-10 md:hidden"
@@ -20,7 +20,7 @@
 
   <nav
     :class="showMenu ? 'flex' : 'hidden'"
-    class="flex-col p-2 text-white bg-purple-300 space-y-4 md:bg-gradient-to-r md:from-indigo-500 via-purple-500 md:to-pink-500 md:h-10 md:flex md:space-y-0 md:flex-row md:items-center md:justify-end md:space-x-10 md:mt-0"
+    class="flex-col p-2 md:sticky md:top-0 lg:sticky lg:top-0 z-30 text-white bg-purple-300 space-y-4 md:bg-gradient-to-r md:from-indigo-500 via-purple-500 md:to-pink-500 md:h-10 md:flex md:space-y-0 md:flex-row md:items-center md:justify-end md:space-x-10 md:mt-0"
   >
 
     <router-link
@@ -35,6 +35,12 @@
       class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
       v-if="isLoggedIn"
       >Category</router-link
+    >
+    <router-link
+      to="/restaurant"
+      class="transition ease-in-out delay-100 hover:-translate-y-0.5 hover:scale-200 hover:text-purple-700 duration-200"
+      v-if="isLoggedIn"
+      >Restaurant</router-link
     >
     
     <div>
@@ -105,59 +111,56 @@
   </nav>
   <RouterView />
 
-<footer class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+<footer class="sticky top-[100vh] w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+    <div class="   p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-0">
-              <a href="" class="flex items-center">
-                 
-                <img src="../assets/logo.png" alt="logo" class="h-20 w-60" />
-              </a>
+              <RouterLink to="#" class="text-pink-200 text-5xl font-mono">FoodieHunt</RouterLink>
           </div>
-          <div class="grid grid-cols-3 gap-10 sm:gap-6 sm:grid-cols-3">
+          <div class="grid grid-cols-3 gap-10 sm:gap-4  sm:text-sm sm:grid-cols-3">
               <div>
                   <h2 class="mb-6 text-sm font-semibold text-white uppercase dark:text-white">General</h2>
-                  <ul class="text-gray-600 dark:text-gray-400 font-medium">
+                  <ul class="text-white dark:text-white-400 font-medium">
                       
                       <li class="mb-4">
-                          <RouterLink to="/" class="hover:underline">Home</RouterLink>
+                          <RouterLink to="/home" @click.native="refreshPage" class="hover:underline text-sm font-roboto">Home</RouterLink>
                           
                       </li>
                       <li class="mb-4">
-                          <RouterLink to="/" class="hover:underline">Restaurant</RouterLink>
+                          <RouterLink to="/restaurant" class="hover:underline text-sm font-roboto">Restaurant</RouterLink>
                           
                       </li>
                       <li>
-                          <RouterLink to="/" class="hover:underline">Search Recipe</RouterLink>
+                          <RouterLink to="/home" @click.native="scrollToTop" class="hover:underline text-sm font-roboto">Search Recipe</RouterLink>
                           
                       </li>
                   </ul>
               </div>
               <div>
                   <h2 class="mb-6 text-sm font-semibold text-white  uppercase dark:text-white">Category</h2>
-                  <ul class="text-gray-600 dark:text-gray-400 font-medium">
+                  <ul class="text-white dark:text-gray-400 font-medium">
                       <li class="mb-4">
-                          <RouterLink to="/categoryItem/Chicken" class="hover:underline ">Chicken</RouterLink>
+                          <RouterLink to="/categoryItem/Chicken" class="hover:underline text-sm font-roboto">Chicken</RouterLink>
                       </li>
                       <li class="mb-4">
-                          <a href="" class="hover:underline">Beef</a>
+                          <RouterLink to="" class="hover:underline text-sm font-roboto">Beef</RouterLink>
                       </li>
                       <li class="mb-4">
-                          <a href="" class="hover:underline">Salmon</a>
+                          <RouterLink to="" class="hover:underline text-sm font-roboto">Salmon</RouterLink>
                       </li>
-                      <li class="mb-4"> 
-                          <a href="" class="hover:underline">Vegetarian</a>
+                      <li class="mb-4 "> 
+                          <RouterLink to="" class="hover:underline text-sm font-roboto">Vegetarian</RouterLink>
                       </li>
                   </ul>
               </div>
               <div>
                   <h2 class="mb-6 text-sm font-semibold text-white  uppercase dark:text-white">Profile</h2>
-                  <ul class="text-gray-600 dark:text-gray-400 font-medium">
+                  <ul class="text-white dark:text-gray-400 font-medium">
                       <li class="mb-4">
-                          <a href="#" class="hover:underline">Account</a>
+                          <RouterLink to="/account" class="hover:underline text-sm font-roboto">Account</RouterLink>
                       </li>
                       <li>
-                          <a href="#" class="hover:underline">Saved Recipe</a>
+                          <RouterLink to="/savedRecipe" class="hover:underline text-sm font-roboto">Saved Recipe</RouterLink>
                       </li>
                   </ul>
               </div>
@@ -186,8 +189,21 @@ import store from "../store";
 function handleSignOut (){
   store.dispatch('logout')
   .then(() => {
-    router.push('/login')
+    location.reload()
+    router.push('/home')
+
   })
+}
+const refreshPage = () => {
+  if (router.currentRoute.value.path === '/home') {
+    router.go(0); // Refresh the current route if it is the home route
+  }
+};
+const  scrollToTop =()=>{
+  window.scrollTo({
+        top: 0,
+        behavior: 'smooth', // Optional smooth scrolling animation
+      });
 }
 onMounted(() => {
   if (store.state.user.token) {

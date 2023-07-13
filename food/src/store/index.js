@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import axiosClient from "../axios";
 import axiosFoodClient from "../axiosFoodClient";
+import axiosRestaurantClient from "../axiosRestaurantClient";
 
 function updateLocalStorage(savedRecipe) {
     localStorage.setItem("savedRecipe", JSON.stringify(savedRecipe));
@@ -141,6 +142,25 @@ const store = createStore({
                 alert("No user");
             }
         },
+        async loadRestaurant(context) {
+            const response = await axiosRestaurantClient.get(`list-by-latlng`, {
+                params: {
+                    latitude: '4.2105',
+                    longitude: '101.9758',
+                    limit: '10',
+                    currency: 'MYR',
+                    distance: '1000',
+                    open_now: 'false',
+                    lunit: 'km',
+                    lang: 'en_US',
+                    
+                },
+            });
+            console.log(response.data.data);
+            return response.data.data;
+        }
+
+
        
     },
 

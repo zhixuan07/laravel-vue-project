@@ -16,10 +16,10 @@
             type="text"
             class="bg-transparent border-2 border-white rounded-lg m-3 py-2 px-4 text-white w-1/2"
             v-model="recipeName"
-            placeholder="Search for food"
+            placeholder="Search for recipe"
           />
           <button
-            class="bg-white rounded-lg py-2 px-4 text-black h-15 w-30 focus:shadow-outline transition-colors duration-150 hover:bg-indigo-500 hover:text-indigo-100"
+            class="bg-white rounded-lg py-2 px-4 text-black h-15 w-30 focus:shadow-outline transition-colors duration-150 hover:bg-gray-200 "
             @click="searchRecipe"
           >
             Search
@@ -37,7 +37,7 @@
   
     </div>
     <div
-      class="  grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 p-20 h-full  sm:p-12 "
+      class="  grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 p-20 h-fit  sm:p-12 "
     >
    
       <div
@@ -51,12 +51,12 @@
           :src="item.strMealThumb"
           alt="N / A"
         />
-        <div class="h-40">
-          <div class=" pl-3 pt-2">
+        <div class="h-fit">
+          <div class=" pl-3 pt-2 m-1">
             <p class="text-md font-semibold">{{ item.strMeal }}</p>
           </div>
 
-          <div class="flex justify-between mt-20  pl-2 pr-2 ">
+          <div class="flex justify-between mt-16 mb-1 pl-2 pr-2 ">
             <span
               class="inline-block bg-gray-200 rounded-full px-3 py-1 sm:text-xs text-sm font-semibold text-gray-700 mr-2 mb-2 sm:px-3 sm:py-3 "
               >#{{ item.strCategory }}</span
@@ -100,8 +100,8 @@ import Modal from "../components/Modal.vue";
 import axiosFoodClient from "../axiosFoodClient";
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
-const store = useStore();
 
+const store = useStore();
 const router = useRouter();
 const isOpen = ref(false);
 const modalInfo = ref(null);
@@ -128,12 +128,20 @@ onMounted(() =>
 
 
 const openModal = (item) => {
-  
-  isOpen.value = true;
+  if(sessionStorage.getItem('TOKEN') === null){
+    isOpen.value = false;
+    document.body.classList.remove("overflow-hidden");
+    alert('please login to view recipe')
+    router.push('/login')
+    
+  }else{
+    isOpen.value = true;
   document.body.classList.add("overflow-hidden");
   axiosFoodClient.get(`lookup.php?i=${item.idMeal}`).then(({ data }) => {
     modalInfo.value = data.meals[0];
   });
+  }
+
   
   
 };
@@ -141,6 +149,5 @@ const closeModal = () => {
   isOpen.value = false;
   document.body.classList.remove("overflow-hidden");
 };
-
 
 </script>

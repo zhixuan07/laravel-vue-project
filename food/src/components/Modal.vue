@@ -65,16 +65,18 @@
 
 <script setup>
 import { computed } from '@vue/reactivity';
-import { ref, defineEmits, onMounted } from 'vue'
+import { ref, defineEmits } from 'vue'
 import store from '../store'
 import useRecipe from '../recipe';
 
-import axiosFoodClient from '../axiosFoodClient';
+
 const {storeRecipe} = useRecipe();
-const ingredient = ref([])
+
+
 
 const recipe = defineProps({
   recipe_id: String,
+  
   recipe_name: String,
   recipe_category: String,
   recipe_image : String,
@@ -86,8 +88,13 @@ const recipe = defineProps({
 defineEmits('close')
 
 
-function addToFavorites(){
-storeRecipe(recipe)
+function addToFavorites() {
+  const stringUser = localStorage.getItem('setUsers');
+const user = JSON.parse(stringUser);
+const id = user.id;
+  console.log(id)
+  storeRecipe(id,recipe);
+  
 }
 
   

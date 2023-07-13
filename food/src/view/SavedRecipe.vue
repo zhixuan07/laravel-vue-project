@@ -1,4 +1,8 @@
 <template>
+
+  <div class="flex justify-center p-3">
+    <h1 class="text-2xl font-semibold"> Saved Recipe</h1>`
+  </div>
   <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 p-12 sm:p-4">
     <div v-for="food in recipe" :key="food.id" class="p-10 relative">
         <a class="absolute top-0 right-0 cursor-pointer p-6" @click="removeRecipe(food.id)">
@@ -76,16 +80,27 @@ const {showRecipe,recipe,deleteRecipe} = useRecipe();
 
 onMounted(async() => {
   
+  const userDetailsString = localStorage.getItem('setUsers');
 
-    showRecipe();
-  
+// Parse the string into a JSON object
+const userDetails = JSON.parse(userDetailsString);
+
+// Access the user ID from the JSON object
+const userId = userDetails.id;
+    console.log(userId)
+    showRecipe(userId);
+    if(recipe.length == 0){
+      alert("No Saved Recipe")
+    }
     return recipe
+    
   
   
 });
 
 const removeRecipe = (foodId) => {
   deleteRecipe(foodId);
+ 
   
 };
 

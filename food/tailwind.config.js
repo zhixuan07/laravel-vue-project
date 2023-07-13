@@ -7,6 +7,12 @@ export default {
             md: { min: "601px", max: "1600px" },
             lg: { min: "1601px", max: "2000px" },
         },
+        fontFamily: {
+            
+            'roboto': ['Roboto', 'sans-serif'],
+            'mono': ['Roboto Mono', 'monospace']
+          },
+      
         extend: {
             backgroundImage: { theme: "url('/src/assets/background.jpeg') ," },
             animation: {

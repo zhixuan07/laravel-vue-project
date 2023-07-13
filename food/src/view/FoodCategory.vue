@@ -20,6 +20,7 @@ const searchRecipe = () => {
 onMounted(() => {
   axiosFoodClient.get("categories.php").then(({ data }) => {
     foodList.value = data.categories;
+    console.log(foodList.value);
   });
 });
 </script>
@@ -80,7 +81,7 @@ onMounted(() => {
                 class="bg-indigo-600 rounded-lg w-20 h-10 text-white"
                 @click="openCategoryItem(item)"
               >
-                More Info
+                View
               </button>
             </div>
           </div>

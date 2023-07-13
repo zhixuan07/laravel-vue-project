@@ -29,7 +29,7 @@ function useUser  () {
             
             let response = await axiosClient.get(`/users/${usersObject.id}`);
             user.value = response.data.data;
-            console.log(user)
+            console.log(user.value)
             
             
         };
